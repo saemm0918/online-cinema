@@ -3,111 +3,229 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#100e0c">
 <title>KNZ CINEMA</title>
 <style>
 *{box-sizing:border-box}
-body{
- margin:0;background:#100e0c;color:#eee5d8;
- font-family:Arial,sans-serif;
- min-height:100vh;padding:env(safe-area-inset-top) 18px env(safe-area-inset-bottom);
-}
-header{
- display:flex;justify-content:space-between;align-items:center;
- padding:22px 2px;border-bottom:1px solid #393027;
-}
-.logo{font-size:21px;letter-spacing:4px;font-weight:bold}
-.status{font-size:10px;color:#b49a73;letter-spacing:1px}
+body{margin:0;background:#100e0c;color:#eee5d8;font-family:Arial,sans-serif;padding:env(safe-area-inset-top) 18px env(safe-area-inset-bottom)}
 main{max-width:480px;margin:auto}
-h1{
- text-align:center;font-size:29px;letter-spacing:5px;
- font-weight:400;margin:38px 0 9px;
-}
+header{display:flex;justify-content:space-between;align-items:center;padding:22px 2px;border-bottom:1px solid #393027}
+.logo{font-size:21px;letter-spacing:4px;font-weight:bold}
+.status{font-size:10px;color:#b49a73}
+h1{text-align:center;font-size:29px;letter-spacing:5px;font-weight:400;margin:38px 0 9px}
 .sub{text-align:center;color:#9a8874;font-size:10px;letter-spacing:3px}
 .screen-wrap{margin:35px 0 27px}
 .screen-label{text-align:center;color:#ad9674;font-size:10px;letter-spacing:3px;margin-bottom:12px}
-.screen{
- width:100%;aspect-ratio:16/9;background:#211d19;
- border:1px solid #69563e;display:flex;align-items:center;
- justify-content:center;text-align:center;padding:15px;
- box-shadow:0 0 35px #000;
-}
+.screen{width:100%;aspect-ratio:16/9;background:#211d19;border:1px solid #69563e;display:flex;align-items:center;justify-content:center;text-align:center;padding:15px}
 .screen span{font-size:11px;letter-spacing:3px;color:#a9957c}
 .section-title{font-size:11px;letter-spacing:2px;color:#b49a73;margin:25px 0 14px}
 .seats{display:grid;grid-template-columns:repeat(8,1fr);gap:9px}
-.seat{
- aspect-ratio:1;border:1px solid #67533b;background:#211d19;
- color:#c8b69c;border-radius:5px;font-size:10px;
-}
-.seat.selected{background:#a88b60;color:#17120c;border-color:#a88b60}
-.seat.taken{opacity:.25}
-.info{text-align:center;color:#86796a;font-size:11px;margin:12px 0 25px}
-input{
- width:100%;padding:15px;background:#1c1915;
- border:1px solid #514333;color:#eee5d8;
- font-size:14px;outline:none;border-radius:0;
-}
-.enter{
- width:100%;padding:17px;margin-top:12px;
- background:#a88b60;color:#17120c;border:0;
- letter-spacing:3px;font-weight:bold;font-size:12px;
-}
-.reaction{text-align:center;margin:30px 0}
-.heart{
- background:none;border:1px solid #514333;color:#c9a88d;
- padding:12px 25px;font-size:15px;
-}
+.seat{aspect-ratio:1;border:1px solid #67533b;background:#211d19;color:#c8b69c;border-radius:5px;font-size:10px}
+.seat.selected{background:#a88b60;color:#17120c}
+.seat.taken{background:#493d32;color:#8c8174;opacity:.55}
+.info{text-align:center;color:#a9957c;font-size:11px;margin:12px 0 25px}
+input{width:100%;padding:15px;background:#1c1915;border:1px solid #514333;color:#eee5d8;font-size:14px;outline:none;margin-bottom:10px}
+button{cursor:pointer}
+.enter,.send{width:100%;padding:16px;background:#a88b60;color:#17120c;border:0;letter-spacing:2px;font-weight:bold}
+.reaction{text-align:center;margin:25px 0}
+.heart{background:none;border:1px solid #514333;color:#c9a88d;padding:12px 25px;font-size:15px}
+.chat{background:#1c1915;border:1px solid #393027;padding:12px;height:210px;overflow-y:auto;margin-bottom:12px}
+.chatline{font-size:12px;margin-bottom:12px;overflow-wrap:anywhere}
+.chatname{color:#c5a77e;display:block;margin-bottom:4px}
+.chatinput{display:flex;gap:8px}
+.chatinput input{margin:0;min-width:0}
+.chatinput button{padding:0 18px;background:#a88b60;border:0;color:#17120c}
+#message{font-size:11px;color:#a9957c;text-align:center;margin:12px 0}
 footer{text-align:center;color:#62574b;font-size:9px;letter-spacing:2px;padding:30px 0}
-@media(min-width:600px){
- body{padding-left:30px;padding-right:30px}
-}
 </style>
 </head>
 <body>
 <header>
  <div class="logo">KNZ</div>
- <div class="status">● CINEMA OPEN</div>
+ <div class="status" id="connection">● CONNECTING</div>
 </header>
 <main>
  <h1>KNZ CINEMA</h1>
  <div class="sub">NOW SHOWING</div>
+
  <div class="screen-wrap">
   <div class="screen-label">SCREEN 01</div>
   <div class="screen"><span>THE SHOW WILL BEGIN SOON</span></div>
  </div>
+
  <div class="section-title">SELECT YOUR SEAT</div>
  <div class="seats" id="seats"></div>
  <div class="info" id="seatInfo">PLEASE SELECT A SEAT</div>
+
  <input id="nickname" placeholder="ENTER YOUR NICKNAME" maxlength="15">
- <button class="enter" onclick="enterCinema()">ENTER CINEMA</button>
+ <button class="enter" id="enter">ENTER CINEMA</button>
+ <div id="message"></div>
+
  <div class="reaction">
-  <button class="heart" onclick="like()">♡ <span id="likes">0</span></button>
+  <button class="heart" id="heart">♡ <span id="likes">0</span></button>
+ </div>
+
+ <div class="section-title">LIVE CHAT</div>
+ <div class="chat" id="chat"></div>
+ <div class="chatinput">
+  <input id="chatMessage" placeholder="WRITE A MESSAGE..." maxlength="300">
+  <button id="send">SEND</button>
  </div>
 </main>
 <footer>KNZ CINEMA · EST. 2026</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-let selected=null,likes=0;
-const seats=document.getElementById('seats');
-for(let i=1;i<=32;i++){
- const b=document.createElement('button');
- b.className='seat';b.textContent=String(i).padStart(2,'0');
- b.onclick=()=>{
-  document.querySelectorAll('.seat').forEach(x=>x.classList.remove('selected'));
-  b.classList.add('selected');selected=i;
-  document.getElementById('seatInfo').textContent='YOUR SEAT : '+String(i).padStart(2,'0');
- };
- seats.appendChild(b);
+const SUPABASE_URL = "https://thpeuxledhfuvhtlxlow.supabase.co";
+const SUPABASE_KEY = "sb_publishable_iOGSNJMntf3GcMDIz2DAtA_fbGGbXtx";
+
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+let selectedSeat = null;
+let nickname = "";
+let entered = false;
+
+const seatArea = document.getElementById("seats");
+const message = document.getElementById("message");
+
+function showMessage(text) {
+ message.textContent = text;
 }
-function enterCinema(){
- const name=document.getElementById('nickname').value.trim();
- if(!selected)return alert('PLEASE SELECT YOUR SEAT');
- if(!name)return alert('PLEASE ENTER YOUR NICKNAME');
- alert('WELCOME TO KNZ CINEMA, '+name+'!');
+
+function drawSeats(rows) {
+ seatArea.innerHTML = "";
+ rows.sort((a,b)=>a.seat_number-b.seat_number).forEach(row=>{
+  const b = document.createElement("button");
+  b.className = "seat" + (row.is_taken ? " taken" : "");
+  b.textContent = String(row.seat_number).padStart(2,"0");
+  b.disabled = row.is_taken;
+  if(row.seat_number === selectedSeat) b.classList.add("selected");
+  b.onclick = () => {
+   if(row.is_taken) return;
+   selectedSeat = row.seat_number;
+   drawSeats(rows);
+   document.getElementById("seatInfo").textContent =
+    "YOUR SEAT : " + String(selectedSeat).padStart(2,"0");
+  };
+  seatArea.appendChild(b);
+ });
 }
-function like(){
- likes++;document.getElementById('likes').textContent=likes;
+
+async function loadSeats() {
+ const {data,error} = await db.from("cinema_seats")
+  .select("*").order("seat_number");
+ if(error) {
+  showMessage("좌석을 불러오지 못했어: " + error.message);
+  return;
+ }
+ drawSeats(data);
 }
+
+async function enterCinema() {
+ nickname = document.getElementById("nickname").value.trim();
+ if(!nickname) return showMessage("닉네임을 입력해 줘.");
+ if(!selectedSeat) return showMessage("좌석을 선택해 줘.");
+ if(entered) return showMessage("이미 입장했어.");
+
+ const {data,error} = await db.from("cinema_seats")
+  .update({nickname:nickname,is_taken:true})
+  .eq("seat_number",selectedSeat)
+  .eq("is_taken",false)
+  .select()
+  .maybeSingle();
+
+ if(error) return showMessage("입장 실패: " + error.message);
+ if(!data) {
+  selectedSeat = null;
+  await loadSeats();
+  return showMessage("이미 다른 사람이 선택한 좌석이야.");
+ }
+
+ entered = true;
+ document.getElementById("enter").textContent = "ENTERED";
+ document.getElementById("enter").disabled = true;
+ document.getElementById("nickname").disabled = true;
+ showMessage("WELCOME TO KNZ CINEMA, " + nickname + "!");
+}
+
+async function loadChat() {
+ const {data,error} = await db.from("cinema_chat")
+  .select("*").order("created_at",{ascending:true}).limit(50);
+ if(error) return;
+ const box = document.getElementById("chat");
+ box.innerHTML = "";
+ data.forEach(addChatLine);
+ box.scrollTop = box.scrollHeight;
+}
+
+function addChatLine(row) {
+ const box = document.getElementById("chat");
+ const line = document.createElement("div");
+ line.className = "chatline";
+ const name = document.createElement("span");
+ name.className = "chatname";
+ name.textContent = row.nickname;
+ const msg = document.createElement("span");
+ msg.textContent = row.message;
+ line.append(name,msg);
+ box.appendChild(line);
+ box.scrollTop = box.scrollHeight;
+}
+
+async function sendChat() {
+ const text = document.getElementById("chatMessage").value.trim();
+ if(!entered) return showMessage("먼저 좌석을 선택하고 입장해 줘.");
+ if(!text) return;
+
+ const {error} = await db.from("cinema_chat").insert({
+  nickname:nickname,
+  message:text
+ });
+ if(error) return showMessage("채팅 전송 실패: " + error.message);
+ document.getElementById("chatMessage").value = "";
+}
+
+async function loadLikes() {
+ const {count,error} = await db.from("cinema_likes")
+  .select("*",{count:"exact",head:true});
+ if(!error) document.getElementById("likes").textContent = count || 0;
+}
+
+async function like() {
+ if(!entered) return showMessage("먼저 입장해 줘.");
+ const {error} = await db.from("cinema_likes")
+  .insert({nickname:nickname});
+ if(error) showMessage("하트 전송 실패: " + error.message);
+}
+
+document.getElementById("enter").onclick = enterCinema;
+document.getElementById("send").onclick = sendChat;
+document.getElementById("heart").onclick = like;
+document.getElementById("chatMessage").addEventListener("keydown",e=>{
+ if(e.key==="Enter") sendChat();
+});
+
+async function start() {
+ const {error} = await db.from("cinema_seats").select("seat_number").limit(1);
+ if(error) {
+  document.getElementById("connection").textContent = "● CONNECTION ERROR";
+  showMessage("연결 오류: " + error.message);
+  return;
+ }
+ document.getElementById("connection").textContent = "● CONNECTED";
+ await loadSeats();
+ await loadChat();
+ await loadLikes();
+
+ db.channel("knz-live")
+  .on("postgres_changes",{event:"*",schema:"public",table:"cinema_seats"},loadSeats)
+  .on("postgres_changes",{event:"INSERT",schema:"public",table:"cinema_chat"},payload=>addChatLine(payload.new))
+  .on("postgres_changes",{event:"INSERT",schema:"public",table:"cinema_likes"},loadLikes)
+  .subscribe();
+}
+
+start();
 </script>
 </body>
 </html>
