@@ -3,148 +3,110 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#100e0c">
 <title>KNZ CINEMA</title>
 <style>
 *{box-sizing:border-box}
 body{
-  margin:0;background:#100d0d;color:#eee8df;
-  font-family:Arial,sans-serif;
+ margin:0;background:#100e0c;color:#eee5d8;
+ font-family:Arial,sans-serif;
+ min-height:100vh;padding:env(safe-area-inset-top) 18px env(safe-area-inset-bottom);
 }
 header{
-  padding:22px 6%;display:flex;
-  justify-content:space-between;align-items:center;
-  border-bottom:1px solid #302522;
+ display:flex;justify-content:space-between;align-items:center;
+ padding:22px 2px;border-bottom:1px solid #393027;
 }
-.logo{font-size:17px;letter-spacing:3px;font-weight:bold}
-.status{font-size:11px;color:#c49b75;letter-spacing:2px}
-main{max-width:1100px;margin:auto;padding:35px 22px}
-.top{text-align:center;margin:30px 0 42px}
-h1{font-size:clamp(27px,5vw,48px);letter-spacing:5px;margin:15px 0}
-.screen-area{margin:35px auto;max-width:750px;text-align:center}
-.screen-label{font-size:10px;letter-spacing:5px;color:#b99878}
+.logo{font-size:21px;letter-spacing:4px;font-weight:bold}
+.status{font-size:10px;color:#b49a73;letter-spacing:1px}
+main{max-width:480px;margin:auto}
+h1{
+ text-align:center;font-size:29px;letter-spacing:5px;
+ font-weight:400;margin:38px 0 9px;
+}
+.sub{text-align:center;color:#9a8874;font-size:10px;letter-spacing:3px}
+.screen-wrap{margin:35px 0 27px}
+.screen-label{text-align:center;color:#ad9674;font-size:10px;letter-spacing:3px;margin-bottom:12px}
 .screen{
-  height:230px;margin:18px 12px 35px;
-  border:1px solid #80664f;
-  border-radius:5px;
-  background:radial-gradient(ellipse at center,#514137,#211b19 70%);
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 0 45px #a77b4122;
-  position:relative;
+ width:100%;aspect-ratio:16/9;background:#211d19;
+ border:1px solid #69563e;display:flex;align-items:center;
+ justify-content:center;text-align:center;padding:15px;
+ box-shadow:0 0 35px #000;
 }
-.screen:after{
-  content:"";position:absolute;bottom:-35px;
-  width:85%;height:25px;
-  border-top:2px solid #8b7056;
-  transform:perspective(100px) rotateX(-10deg);
-}
-.screen-text{font-size:12px;letter-spacing:4px;color:#d8c5ad}
-.section-title{
-  text-align:center;font-size:12px;
-  letter-spacing:4px;color:#c5a17e;margin:55px 0 25px;
-}
-.seats{
-  display:grid;grid-template-columns:repeat(8,1fr);
-  gap:12px;max-width:680px;margin:auto;
-}
+.screen span{font-size:11px;letter-spacing:3px;color:#a9957c}
+.section-title{font-size:11px;letter-spacing:2px;color:#b49a73;margin:25px 0 14px}
+.seats{display:grid;grid-template-columns:repeat(8,1fr);gap:9px}
 .seat{
-  border:1px solid #59483e;background:#29201d;
-  color:#c6b5a5;border-radius:9px;
-  padding:12px 2px;cursor:pointer;font-size:12px;
+ aspect-ratio:1;border:1px solid #67533b;background:#211d19;
+ color:#c8b69c;border-radius:5px;font-size:10px;
 }
-.seat.selected{background:#b28a63;color:#17100c}
-.seat.taken{opacity:.35;cursor:not-allowed}
-.info{text-align:center;color:#8f8278;font-size:12px;margin:20px}
-.controls{text-align:center;margin:35px 0}
-button{
-  cursor:pointer;border:0;border-radius:5px;
-  padding:13px 22px;background:#a77e5a;color:#160f0b;
-  font-weight:bold;margin:5px;
-}
-button.secondary{background:#332923;color:#eee8df}
+.seat.selected{background:#a88b60;color:#17120c;border-color:#a88b60}
+.seat.taken{opacity:.25}
+.info{text-align:center;color:#86796a;font-size:11px;margin:12px 0 25px}
 input{
-  background:#211b18;border:1px solid #59483e;
-  color:white;padding:13px;border-radius:5px;
-  width:210px;max-width:90%;
+ width:100%;padding:15px;background:#1c1915;
+ border:1px solid #514333;color:#eee5d8;
+ font-size:14px;outline:none;border-radius:0;
 }
-footer{
-  text-align:center;border-top:1px solid #302522;
-  padding:28px;color:#71645c;font-size:10px;
-  letter-spacing:2px;margin-top:60px;
+.enter{
+ width:100%;padding:17px;margin-top:12px;
+ background:#a88b60;color:#17120c;border:0;
+ letter-spacing:3px;font-weight:bold;font-size:12px;
 }
-@media(max-width:500px){
-  .seats{gap:6px}
-  .seat{padding:11px 1px;font-size:10px}
-  .screen{height:170px}
+.reaction{text-align:center;margin:30px 0}
+.heart{
+ background:none;border:1px solid #514333;color:#c9a88d;
+ padding:12px 25px;font-size:15px;
+}
+footer{text-align:center;color:#62574b;font-size:9px;letter-spacing:2px;padding:30px 0}
+@media(min-width:600px){
+ body{padding-left:30px;padding-right:30px}
 }
 </style>
 </head>
 <body>
 <header>
-  <div class="logo">KNZ</div>
-  <div class="status">● CINEMA OPEN</div>
+ <div class="logo">KNZ</div>
+ <div class="status">● CINEMA OPEN</div>
 </header>
-
 <main>
-  <div class="top">
-    <h1>KNZ CINEMA</h1>
-  </div>
-
-  <div class="screen-area">
-    <div class="screen-label">NOW SHOWING</div>
-    <div class="screen">
-      <div class="screen-text" id="screenText">
-        THE SHOW WILL BEGIN SOON
-      </div>
-    </div>
-  </div>
-
-  <div class="section-title">SELECT YOUR SEAT</div>
-  <div class="seats" id="seats"></div>
-  <div class="info" id="seatInfo">원하는 좌석을 선택해 주세요.</div>
-
-  <div class="controls">
-    <input id="nickname" placeholder="닉네임을 입력하세요">
-    <br>
-    <button onclick="enterCinema()">ENTER CINEMA</button>
-    <button class="secondary" onclick="heart()">♥ <span id="hearts">0</span></button>
-  </div>
+ <h1>KNZ CINEMA</h1>
+ <div class="sub">NOW SHOWING</div>
+ <div class="screen-wrap">
+  <div class="screen-label">SCREEN 01</div>
+  <div class="screen"><span>THE SHOW WILL BEGIN SOON</span></div>
+ </div>
+ <div class="section-title">SELECT YOUR SEAT</div>
+ <div class="seats" id="seats"></div>
+ <div class="info" id="seatInfo">PLEASE SELECT A SEAT</div>
+ <input id="nickname" placeholder="ENTER YOUR NICKNAME" maxlength="15">
+ <button class="enter" onclick="enterCinema()">ENTER CINEMA</button>
+ <div class="reaction">
+  <button class="heart" onclick="like()">♡ <span id="likes">0</span></button>
+ </div>
 </main>
-
-<footer>
-  KNZ CINEMA · EST. 2026
-</footer>
-
+<footer>KNZ CINEMA · EST. 2026</footer>
 <script>
+let selected=null,likes=0;
 const seats=document.getElementById('seats');
-let selected=null;
-let hearts=0;
-
 for(let i=1;i<=32;i++){
-  const s=document.createElement('button');
-  s.className='seat';
-  s.textContent=String(i).padStart(2,'0');
-  s.onclick=()=>{
-    if(s.classList.contains('taken'))return;
-    document.querySelectorAll('.seat').forEach(x=>x.classList.remove('selected'));
-    s.classList.add('selected');
-    selected=i;
-    document.getElementById('seatInfo').textContent=
-      '선택한 좌석 : '+String(i).padStart(2,'0');
-  };
-  seats.appendChild(s);
+ const b=document.createElement('button');
+ b.className='seat';b.textContent=String(i).padStart(2,'0');
+ b.onclick=()=>{
+  document.querySelectorAll('.seat').forEach(x=>x.classList.remove('selected'));
+  b.classList.add('selected');selected=i;
+  document.getElementById('seatInfo').textContent='YOUR SEAT : '+String(i).padStart(2,'0');
+ };
+ seats.appendChild(b);
 }
-
 function enterCinema(){
-  const name=document.getElementById('nickname').value.trim();
-  if(!name){alert('닉네임을 입력해 주세요.');return;}
-  if(!selected){alert('좌석을 선택해 주세요.');return;}
-  alert(name+'님, '+selected+'번 좌석에 입장합니다!');
+ const name=document.getElementById('nickname').value.trim();
+ if(!selected)return alert('PLEASE SELECT YOUR SEAT');
+ if(!name)return alert('PLEASE ENTER YOUR NICKNAME');
+ alert('WELCOME TO KNZ CINEMA, '+name+'!');
 }
-
-function heart(){
-  hearts++;
-  document.getElementById('hearts').textContent=hearts;
+function like(){
+ likes++;document.getElementById('likes').textContent=likes;
 }
 </script>
 </body>
